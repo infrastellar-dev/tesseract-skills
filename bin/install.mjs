@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * Install Tesseract skills for Claude Code.
+ * Install Tesseract plugin for Claude Code.
  *
- * Usage:
+ * Preferred method: /plugin marketplace add infrastellar-dev/tesseract-skills
+ *
+ * This npx script is a fallback for manual installation:
  *   npx tesseract-skills              # install globally (~/.claude/skills/)
  *   npx tesseract-skills --project    # install in current project (.claude/skills/)
  *   npx tesseract-skills --project /path/to/project
@@ -13,7 +15,8 @@ import { homedir } from "node:os";
 import { fileURLToPath } from "node:url";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
-const SKILLS_SRC = join(__dirname, "..", "skills");
+const PLUGIN_SRC = join(__dirname, "..", "plugins", "tesseract");
+const SKILLS_SRC = join(PLUGIN_SRC, "skills");
 
 const args = process.argv.slice(2);
 
@@ -21,6 +24,8 @@ if (args.includes("--help") || args.includes("-h")) {
   console.log(`Usage: tesseract-skills [options]
 
 Install Tesseract architecture skills for Claude Code.
+
+Preferred: /plugin marketplace add infrastellar-dev/tesseract-skills
 
 Options:
   --project [path]   Install in project .claude/skills/ (default: current dir)
@@ -54,4 +59,5 @@ for (const skill of skillDirs) {
 }
 
 console.log(`Installed ${installed} Tesseract skills to ${targetDir}`);
-skillDirs.forEach((s) => console.log(`  /  ${s}`));
+skillDirs.forEach((s) => console.log(`  / ${s}`));
+console.log(`\nPreferred installation: /plugin marketplace add infrastellar-dev/tesseract-skills`);

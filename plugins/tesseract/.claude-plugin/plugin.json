@@ -1,0 +1,13 @@
+{
+  "name": "tesseract",
+  "version": "0.1.0",
+  "description": "Generate architecture diagrams from codebases with Tesseract",
+  "author": {
+    "name": "David Guerizec",
+    "email": "david@guerizec.net"
+  },
+  "homepage": "https://infrastellar.dev",
+  "repository": "https://github.com/infrastellar-dev/tesseract-skills",
+  "license": "MIT",
+  "keywords": ["architecture", "diagram", "mcp", "tesseract"]
+}

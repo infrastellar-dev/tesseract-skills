@@ -1,15 +1,16 @@
 {
   "name": "tesseract-skills",
   "version": "0.1.0",
-  "description": "Claude Code skills for Tesseract architecture generation",
+  "description": "Claude Code plugin marketplace for Tesseract architecture generation",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dguerizec/tesseract-skills"
+    "url": "https://github.com/infrastellar-dev/tesseract-skills"
   },
   "keywords": [
     "claude-code",
-    "agent-skills",
+    "plugin",
+    "marketplace",
     "tesseract",
     "architecture",
     "mcp"
@@ -18,7 +19,8 @@
     "tesseract-skills": "./bin/install.mjs"
   },
   "files": [
-    "skills/",
-    "bin/"
+    "plugins/",
+    "bin/",
+    ".claude-plugin/"
   ]
 }

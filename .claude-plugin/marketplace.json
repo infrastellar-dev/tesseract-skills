@@ -1,0 +1,23 @@
+{
+  "name": "tesseract-skills",
+  "owner": {
+    "name": "Infrastellar",
+    "email": "david@guerizec.net"
+  },
+  "metadata": {
+    "description": "Architecture visualization plugins for Claude Code powered by Tesseract"
+  },
+  "plugins": [
+    {
+      "name": "tesseract",
+      "source": "./plugins/tesseract",
+      "description": "Generate architecture diagrams from codebases with Tesseract",
+      "version": "0.1.0",
+      "author": {
+        "name": "David Guerizec"
+      },
+      "keywords": ["architecture", "diagram", "mcp", "tesseract"],
+      "category": "visualization"
+    }
+  ]
+}
