@@ -37,7 +37,7 @@ detect_platform() {
 
 # Check if Tesseract MCP server is already running
 is_running() {
-  curl -sf -o /dev/null --connect-timeout 2 "$MCP_URL" 2>/dev/null
+  curl -s -o /dev/null --connect-timeout 2 "$MCP_URL" 2>/dev/null
 }
 
 # Get the latest version from the releases server
