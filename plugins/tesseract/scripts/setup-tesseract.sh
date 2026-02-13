@@ -42,7 +42,7 @@ is_running() {
 
 # Get the latest version from the releases server
 get_latest_version() {
-  curl -sf "${RELEASES_URL}/latest.json" 2>/dev/null | grep -o '"version":"[^"]*"' | cut -d'"' -f4
+  curl -sfL "${RELEASES_URL}/latest.json" 2>/dev/null | grep -o '"version":"[^"]*"' | cut -d'"' -f4
 }
 
 # Download Tesseract for the current platform
