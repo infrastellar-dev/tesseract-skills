@@ -59,7 +59,7 @@ download() {
   local url="${RELEASES_URL}/${filename}"
 
   mkdir -p "$INSTALL_DIR"
-  echo "Downloading Tesseract ${version} for ${platform}..."
+  echo "Downloading Tesseract ${version} for ${platform}..." >&2
   curl -fL -o "${INSTALL_DIR}/${filename}" "$url"
 
   # Make executable on Linux
