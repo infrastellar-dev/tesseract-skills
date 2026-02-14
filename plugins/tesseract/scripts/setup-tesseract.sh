@@ -6,6 +6,7 @@ set -euo pipefail
 
 RELEASES_URL="https://infrastellar.dev/releases"
 INSTALL_DIR="${HOME}/.tesseract"
+SYMLINK_DIR="${HOME}/.local/bin"
 MCP_URL="http://localhost:7440/mcp"
 
 # Detect OS and architecture
@@ -67,6 +68,14 @@ download() {
     chmod +x "${INSTALL_DIR}/${filename}"
   fi
 
+  # Create symlink in ~/.local/bin/ for easy PATH access
+  if [[ "$platform" == linux-* ]]; then
+    mkdir -p "$SYMLINK_DIR"
+    local symlink="${SYMLINK_DIR}/tesseract"
+    ln -sf "${INSTALL_DIR}/${filename}" "$symlink"
+    echo "Symlink: ${symlink} -> ${filename}" >&2
+  fi
+
   echo "$filename"
 }
 
@@ -74,6 +83,14 @@ download() {
 launch() {
   local filename="$1"
   local filepath="${INSTALL_DIR}/${filename}"
+
+  # Prefer symlink if available (Linux)
+  local symlink="${SYMLINK_DIR}/tesseract"
+  if [[ -L "$symlink" ]]; then
+    echo "Launching Tesseract via ${symlink}..."
+    nohup "$symlink" >/dev/null 2>&1 &
+    return
+  fi
 
   case "$filename" in
     *.AppImage)

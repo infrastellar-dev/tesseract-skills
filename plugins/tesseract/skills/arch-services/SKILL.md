@@ -2,7 +2,7 @@
 name: arch-services
 description: Scan services and APIs in the codebase to add them to the Tesseract architecture diagram. Use after arch-overview to add detail to the services layer.
 disable-model-invocation: true
-allowed-tools: Glob, Grep, Read, Bash, Task, mcp__tesseract__list_types, mcp__tesseract__list_components, mcp__tesseract__get_graph, mcp__tesseract__get_user_context, mcp__tesseract__add_component, mcp__tesseract__update_component, mcp__tesseract__remove_component, mcp__tesseract__add_connection, mcp__tesseract__remove_connection, mcp__tesseract__look_at, mcp__tesseract__annotate, mcp__tesseract__update_project, mcp__tesseract__screenshot, mcp__tesseract__export_mermaid, mcp__tesseract__import_mermaid, mcp__tesseract__list_layers, mcp__tesseract__add_layer, mcp__tesseract__update_layer, mcp__tesseract__remove_layer, mcp__tesseract__reorder_layers, mcp__tesseract__highlight_path, mcp__tesseract__clear_highlights, mcp__tesseract__save_flow, mcp__tesseract__list_flows, mcp__tesseract__show_flow, mcp__tesseract__update_flow, mcp__tesseract__delete_flow, mcp__tesseract__prepare_download, mcp__tesseract__confirm_download, mcp__tesseract__prepare_upload
+allowed-tools: Glob, Grep, Read, Bash, Task, mcp__tesseract__list_types, mcp__tesseract__list_components, mcp__tesseract__get_graph, mcp__tesseract__get_user_context, mcp__tesseract__add_component, mcp__tesseract__update_component, mcp__tesseract__remove_component, mcp__tesseract__add_connection, mcp__tesseract__update_connection, mcp__tesseract__remove_connection, mcp__tesseract__look_at, mcp__tesseract__annotate, mcp__tesseract__update_project, mcp__tesseract__screenshot, mcp__tesseract__export_mermaid, mcp__tesseract__import_mermaid, mcp__tesseract__list_layers, mcp__tesseract__add_layer, mcp__tesseract__update_layer, mcp__tesseract__remove_layer, mcp__tesseract__reorder_layers, mcp__tesseract__highlight_path, mcp__tesseract__clear_highlights, mcp__tesseract__save_flow, mcp__tesseract__list_flows, mcp__tesseract__show_flow, mcp__tesseract__update_flow, mcp__tesseract__delete_flow, mcp__tesseract__prepare_download, mcp__tesseract__confirm_download, mcp__tesseract__prepare_upload
 ---
 
 # Architecture — Services & APIs
@@ -12,13 +12,18 @@ then add them to the Tesseract diagram.
 
 ## Workflow
 
-1. **Discover available types** — call `list_types`.
-2. **Check existing graph** — call `get_graph` to avoid duplicates.
-3. **Scan the codebase** for services and APIs using the patterns below.
-4. **Present a summary** — list each service/API you found with name, type,
+1. **Read layout rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/LAYOUT.md` and
+   follow all placement and connection routing guidelines.
+2. **Discover available types** — call `list_types`.
+3. **Check existing graph** — call `get_graph` to avoid duplicates.
+4. **Scan the codebase** for services and APIs using the patterns below.
+5. **Present a summary** — list each service/API you found with name, type,
    layer, endpoints, and technologies. Wait for confirmation.
-5. **Create components and connections** in Tesseract.
-6. **Navigate** — `look_at` the main API component.
+6. **Create components and connections** in Tesseract.
+   Plan positions on a grid (multiples of 6, min 6 units apart).
+7. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+   connections, fix with `update_component` or `update_connection` (curvature).
+8. **Navigate** — `look_at` the main API component.
 
 ## What to scan
 

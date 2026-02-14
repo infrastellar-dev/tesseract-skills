@@ -2,7 +2,7 @@
 name: arch-detail
 description: Zoom into a specific component in the Tesseract diagram and create a detailed subgraph showing its internal structure. Use to drill down into a service's internals.
 disable-model-invocation: true
-allowed-tools: Glob, Grep, Read, Bash, Task, mcp__tesseract__list_types, mcp__tesseract__list_components, mcp__tesseract__get_graph, mcp__tesseract__get_user_context, mcp__tesseract__add_component, mcp__tesseract__update_component, mcp__tesseract__remove_component, mcp__tesseract__add_connection, mcp__tesseract__remove_connection, mcp__tesseract__look_at, mcp__tesseract__annotate, mcp__tesseract__update_project, mcp__tesseract__screenshot, mcp__tesseract__export_mermaid, mcp__tesseract__import_mermaid, mcp__tesseract__list_layers, mcp__tesseract__add_layer, mcp__tesseract__update_layer, mcp__tesseract__remove_layer, mcp__tesseract__reorder_layers, mcp__tesseract__highlight_path, mcp__tesseract__clear_highlights, mcp__tesseract__save_flow, mcp__tesseract__list_flows, mcp__tesseract__show_flow, mcp__tesseract__update_flow, mcp__tesseract__delete_flow, mcp__tesseract__prepare_download, mcp__tesseract__confirm_download, mcp__tesseract__prepare_upload
+allowed-tools: Glob, Grep, Read, Bash, Task, mcp__tesseract__list_types, mcp__tesseract__list_components, mcp__tesseract__get_graph, mcp__tesseract__get_user_context, mcp__tesseract__add_component, mcp__tesseract__update_component, mcp__tesseract__remove_component, mcp__tesseract__add_connection, mcp__tesseract__update_connection, mcp__tesseract__remove_connection, mcp__tesseract__look_at, mcp__tesseract__annotate, mcp__tesseract__update_project, mcp__tesseract__screenshot, mcp__tesseract__export_mermaid, mcp__tesseract__import_mermaid, mcp__tesseract__list_layers, mcp__tesseract__add_layer, mcp__tesseract__update_layer, mcp__tesseract__remove_layer, mcp__tesseract__reorder_layers, mcp__tesseract__highlight_path, mcp__tesseract__clear_highlights, mcp__tesseract__save_flow, mcp__tesseract__list_flows, mcp__tesseract__show_flow, mcp__tesseract__update_flow, mcp__tesseract__delete_flow, mcp__tesseract__prepare_download, mcp__tesseract__confirm_download, mcp__tesseract__prepare_upload
 argument-hint: "<component name>"
 ---
 
@@ -15,16 +15,21 @@ The user provides the component name as argument: `/arch-detail <component name>
 
 ## Workflow
 
-1. **Discover available types** — call `list_types`.
-2. **Check existing graph** — call `get_graph` to find the target component.
+1. **Read layout rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/LAYOUT.md` and
+   follow all placement and connection routing guidelines.
+2. **Discover available types** — call `list_types`.
+3. **Check existing graph** — call `get_graph` to find the target component.
    If it doesn't exist, tell the user and suggest running `/arch-overview` first.
-3. **Identify the component's code** — find the relevant source directory using
+4. **Identify the component's code** — find the relevant source directory using
    Glob/Grep based on the component name.
-4. **Scan the component's internals** using the patterns below.
-5. **Present a summary** — list each sub-component with name, type, layer,
+5. **Scan the component's internals** using the patterns below.
+6. **Present a summary** — list each sub-component with name, type, layer,
    and internal connections. Wait for confirmation.
-6. **Create sub-components** inside the parent using `parent_path`.
-7. **Navigate** — call `look_at` with action `enter` to drill into the subgraph.
+7. **Create sub-components** inside the parent using `parent_path`.
+   Plan positions on a grid (multiples of 6, min 6 units apart).
+8. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+   connections, fix with `update_component` or `update_connection` (curvature).
+9. **Navigate** — call `look_at` with action `enter` to drill into the subgraph.
 
 ## What to scan inside the component
 
