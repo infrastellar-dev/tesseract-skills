@@ -42,6 +42,22 @@ npx tesseract-skills --project    # install in current project
 
 The plugin auto-configures the Tesseract MCP server at `http://localhost:7440/mcp`, giving Claude access to all diagram tools (components, connections, layers, flows, screenshots, mermaid export, etc.).
 
+### Auto-approve MCP tools
+
+By default, Claude Code asks for confirmation the first time it calls each MCP tool. To approve all Tesseract tools at once, add this to your project's `.claude/settings.json`:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "mcp__tesseract"
+    ]
+  }
+}
+```
+
+This approves every tool exposed by the Tesseract MCP server. You only need to do this once per project.
+
 ## Requirements
 
 - [Claude Code](https://claude.ai/code) with plugin support
