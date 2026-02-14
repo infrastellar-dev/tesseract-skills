@@ -68,15 +68,37 @@ download() {
     chmod +x "${INSTALL_DIR}/${filename}"
   fi
 
-  # Create symlink in ~/.local/bin/ for easy PATH access
+  # Create launcher script and symlink on Linux
   if [[ "$platform" == linux-* ]]; then
-    mkdir -p "$SYMLINK_DIR"
-    local symlink="${SYMLINK_DIR}/tesseract"
-    ln -sf "${INSTALL_DIR}/${filename}" "$symlink"
-    echo "Symlink: ${symlink} -> ${filename}" >&2
+    create_launcher
   fi
 
   echo "$filename"
+}
+
+# Create a launcher script that finds the most recent AppImage.
+# This survives auto-updates (new versioned filenames) without
+# needing to update the symlink.
+create_launcher() {
+  local launcher="${INSTALL_DIR}/Tesseract.sh"
+  cat > "$launcher" << 'LAUNCHER'
+#!/usr/bin/env bash
+set -euo pipefail
+DIR="${HOME}/.tesseract"
+APP=$(ls -t "$DIR"/Tesseract*.AppImage 2>/dev/null | head -1)
+if [[ -z "$APP" ]]; then
+  echo "Error: No Tesseract AppImage found in $DIR" >&2
+  exit 1
+fi
+exec "$APP" "$@"
+LAUNCHER
+  chmod +x "$launcher"
+
+  mkdir -p "$SYMLINK_DIR"
+  local symlink="${SYMLINK_DIR}/tesseract"
+  ln -sf "$launcher" "$symlink"
+  echo "Launcher: ${launcher}" >&2
+  echo "Symlink: ${symlink} -> ${launcher}" >&2
 }
 
 # Launch Tesseract
@@ -84,11 +106,11 @@ launch() {
   local filename="$1"
   local filepath="${INSTALL_DIR}/${filename}"
 
-  # Prefer symlink if available (Linux)
-  local symlink="${SYMLINK_DIR}/tesseract"
-  if [[ -L "$symlink" ]]; then
-    echo "Launching Tesseract via ${symlink}..."
-    nohup "$symlink" >/dev/null 2>&1 &
+  # Prefer launcher script if available (created during download)
+  local launcher="${INSTALL_DIR}/Tesseract.sh"
+  if [[ -x "$launcher" ]]; then
+    echo "Launching Tesseract via ${launcher}..."
+    nohup "$launcher" >/dev/null 2>&1 &
     return
   fi
 
