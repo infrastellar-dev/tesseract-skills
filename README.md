@@ -13,11 +13,11 @@ Scan any codebase and generate interactive 3D architecture diagrams directly fro
 /plugin install tesseract@tesseract-skills
 ```
 
-### Via npx (manual fallback)
+### Via npx from GitHub (manual fallback)
 
 ```bash
-npx tesseract-skills              # install globally
-npx tesseract-skills --project    # install in current project
+npx github:infrastellar-dev/tesseract-skills              # install globally
+npx github:infrastellar-dev/tesseract-skills --project    # install in current project
 ```
 
 ## What's included
