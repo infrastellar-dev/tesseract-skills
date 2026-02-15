@@ -2,7 +2,7 @@
 name: arch-overview
 description: Scan a codebase and generate a high-level Tesseract architecture diagram showing the main components and their relationships. Use when the user wants to visualize their project architecture.
 disable-model-invocation: true
-allowed-tools: Glob, Grep, Read, Bash, Task, mcp__tesseract__list_types, mcp__tesseract__list_components, mcp__tesseract__get_graph, mcp__tesseract__get_user_context, mcp__tesseract__add_component, mcp__tesseract__update_component, mcp__tesseract__remove_component, mcp__tesseract__add_connection, mcp__tesseract__update_connection, mcp__tesseract__remove_connection, mcp__tesseract__look_at, mcp__tesseract__annotate, mcp__tesseract__update_project, mcp__tesseract__screenshot, mcp__tesseract__export_mermaid, mcp__tesseract__import_mermaid, mcp__tesseract__list_layers, mcp__tesseract__add_layer, mcp__tesseract__update_layer, mcp__tesseract__remove_layer, mcp__tesseract__reorder_layers, mcp__tesseract__highlight_path, mcp__tesseract__clear_highlights, mcp__tesseract__save_flow, mcp__tesseract__list_flows, mcp__tesseract__show_flow, mcp__tesseract__update_flow, mcp__tesseract__delete_flow, mcp__tesseract__prepare_download, mcp__tesseract__confirm_download, mcp__tesseract__prepare_upload
+allowed-tools: Glob, Grep, Read, Bash, Task, mcp__tesseract__list_types, mcp__tesseract__list_components, mcp__tesseract__get_graph, mcp__tesseract__get_user_context, mcp__tesseract__add_component, mcp__tesseract__update_component, mcp__tesseract__remove_component, mcp__tesseract__add_connection, mcp__tesseract__update_connection, mcp__tesseract__remove_connection, mcp__tesseract__look_at, mcp__tesseract__annotate, mcp__tesseract__update_project, mcp__tesseract__screenshot, mcp__tesseract__export_mermaid, mcp__tesseract__import_mermaid, mcp__tesseract__list_layers, mcp__tesseract__add_layer, mcp__tesseract__update_layer, mcp__tesseract__remove_layer, mcp__tesseract__reorder_layers, mcp__tesseract__highlight_path, mcp__tesseract__clear_highlights, mcp__tesseract__save_flow, mcp__tesseract__list_flows, mcp__tesseract__show_flow, mcp__tesseract__update_flow, mcp__tesseract__delete_flow, mcp__tesseract__prepare_download, mcp__tesseract__confirm_download, mcp__tesseract__prepare_upload, mcp__tesseract__auto_layout, mcp__tesseract__pin_all, mcp__tesseract__unpin_components
 ---
 
 # Architecture Overview — High-Level Diagram
@@ -20,11 +20,16 @@ relationships.
 4. **Scan the codebase** using the patterns below to identify top-level components.
 5. **Present a summary** to the user: list each component you plan to create with
    its name, type, layer, and technologies. Wait for confirmation before creating.
-6. **Create components and connections** using the Tesseract MCP tools.
-   Plan positions on a grid (multiples of 6, min 6 units apart).
-7. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+6. **Pin existing components** — if the graph already has components, call
+   `pin_all` and save the returned IDs so existing positions are preserved.
+7. **Create components and connections** using the Tesseract MCP tools.
+   No need to specify positions — `auto_layout` will handle placement.
+8. **Run auto layout** — call `auto_layout` to position all unpinned components.
+9. **Unpin** — call `unpin_components` with the IDs from step 6 to restore the
+   original state.
+10. **Verify layout** — take a `screenshot`, check for overlaps and crossing
    connections, fix with `update_component` or `update_connection` (curvature).
-8. **Navigate** — call `look_at` on the most important component so the user
+11. **Navigate** — call `look_at` on the most important component so the user
    sees the result.
 
 ## What to scan
