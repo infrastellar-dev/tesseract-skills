@@ -1,90 +1,79 @@
 # Layout Guidelines
 
-Follow these rules when placing components and creating connections to produce
-clean, readable architecture diagrams.
+Follow these rules when building architecture diagrams to produce clean,
+readable results.
 
-## Component spacing
+## Golden rule: trust auto_layout
 
-- **Minimum 6 units** between any two components (`position_x` / `position_z`).
-- Group related components together but keep clear gaps between groups.
-- Align components in rows or columns when they share the same layer.
-- Prefer grid-aligned positions (multiples of 6) for a tidy layout.
+The force-directed layout algorithm uses connection topology and layer
+assignments to position components. It avoids edge crossings and enforces
+minimum spacing automatically.
 
-## Positioning strategy
+- **Never specify `position_x` / `position_z` when creating components.**
+  Let components be auto-placed, then call `auto_layout` after all components
+  and connections exist.
+- **Never bulk-reposition components after auto_layout.** Moving many components
+  without visual feedback between each move produces worse results than the
+  algorithm.
+- **Fine-tuning is for individual components only.** If one specific component
+  overlaps or is poorly placed, move that one component and screenshot to verify.
 
-1. **Plan positions before creating** — sketch a mental grid:
-   - X axis = horizontal spread within a layer
-   - Z axis = depth (front-to-back, affects visual stacking)
-2. **Center the main component** at (0, 0) and place others relative to it.
-3. **Avoid clusters** — if you have 6+ components, spread them in a wider pattern
-   (e.g. two rows of 3 rather than a single row of 6).
-4. **Symmetric layouts** look best — mirror left/right when possible.
+## Recommended workflow
+
+1. **Setup** — `update_project` (title/description), `add_layer` / `reorder_layers`
+   if custom layers are needed.
+2. **Add components** — call `add_component` for each component. Focus on choosing
+   the correct `type` (call `list_types` first), `layer`, `tech`, and `description`.
+   **Omit position parameters.**
+3. **Add connections** — call `add_connection` for all data flows.
+4. **Layout** — call `auto_layout` once.
+5. **Verify** — call `screenshot` with `zoom_to_fit: true` to check the result.
+6. **Fine-tune** (optional) — if 1-3 components need adjustment, use
+   `update_component` to reposition them individually. Screenshot after each move.
+
+## Adding components to an existing diagram
+
+When adding new components to a diagram that already has a good layout:
+
+1. **`pin_all()`** — pin every existing component. Save the returned IDs.
+2. **Add components and connections** — create new nodes (no positions).
+3. **`auto_layout()`** — only the new unpinned components are repositioned.
+4. **`unpin_components(ids)`** — pass the IDs from step 1 to restore the
+   original unpinned state.
+5. **Screenshot** to verify.
 
 ## Connection routing
 
-- **Connections must not cross** other connections if avoidable. Reposition
-  components or use `curvature` to separate crossing paths.
-- **Connections must not pass through components**. If a straight line would
-  clip a component, use `curvature` (-1 to 1) to bend the connection around it.
+- Connections are routed automatically as straight lines.
 - When two components have multiple connections between them, curvature is
-  auto-assigned. Override with explicit values if the result looks crowded.
-- Use `update_connection` to adjust curvature after creation if needed.
-
-## Auto Layout
-
-Instead of manually positioning every component, use `auto_layout` to
-automatically arrange the diagram. The layout algorithm avoids connection
-crossings and enforces minimum spacing.
-
-### Basic usage
-
-After creating all components and connections, call `auto_layout` once:
-
-```
-auto_layout()
-```
-
-### Adding to an existing diagram (pin/layout/unpin workflow)
-
-When a diagram already has user-placed components, use this workflow to add new
-components without disturbing existing positions:
-
-1. **`pin_all()`** — pin every existing component. Save the returned IDs.
-2. **Add components and connections** — create new nodes (they start at 0,0).
-3. **`auto_layout()`** — runs the layout algorithm. Pinned components stay
-   fixed; only the new (unpinned) ones are repositioned.
-4. **`unpin_components(ids)`** — pass the IDs from step 1 to restore the
-   original unpinned state.
-
-This is the **recommended approach** when extending a diagram that already has
-components placed by the user or by a previous layout pass.
-
-### When to use manual positioning instead
-
-- Precise pixel-perfect placement is required.
-- The diagram has very few components (1–3) where manual placement is trivial.
-- You need a specific non-standard layout shape (e.g. circular, diagonal).
+  auto-assigned to separate the lines.
+- After layout, if connections cross or clip through components, use
+  `update_connection` with `curvature` (-1 to 1) to bend them around obstacles.
+- Only adjust curvature **after** auto_layout and **after** verifying with a screenshot.
 
 ## Visual verification
 
-After placing all components and connections (or after `auto_layout`):
+Always call `screenshot` after making changes. The isometric 3D view can be
+unintuitive — what looks correct in coordinates may overlap visually.
 
-1. Call `screenshot` to capture the current view.
-2. Check for:
-   - Overlapping components (reposition if needed)
-   - Crossing connections (add curvature or reposition)
-   - Connections clipping through components (add curvature)
-   - Uneven spacing (adjust positions)
-3. Fix any issues found, then take a final screenshot to confirm.
+**Bad pattern**: make 10 changes -> screenshot -> discover problems -> redo
+
+**Good pattern**: auto_layout -> screenshot -> adjust 1 component -> screenshot -> done
+
+## Coordinate reference
+
+Components need approximately **6-8 units** of separation on the x-axis to avoid
+visual overlap. The exact amount depends on the component's label length.
+Components with long names need more space. This is handled automatically by
+`auto_layout` — only relevant when fine-tuning individual positions.
 
 ## Quick reference
 
 | Rule | Value |
 |------|-------|
-| Min component spacing | 6 units |
-| Grid alignment | multiples of 6 |
+| Set positions during creation | **No** — omit them |
+| Primary layout method | `auto_layout` |
+| Preserve existing positions | `pin_all` -> add -> `auto_layout` -> `unpin_components` |
 | Connection curvature range | -1 to 1 (0 = straight) |
-| Ideal components per row | 3–4 |
 | Verify with | `screenshot` tool |
-| Auto layout | `auto_layout` tool |
-| Preserve positions | `pin_all` → add → `auto_layout` → `unpin_components` |
+| Fine-tune scope | 1-3 components max, with screenshot between each |
