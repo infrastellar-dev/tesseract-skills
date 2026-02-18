@@ -67,6 +67,48 @@ visual overlap. The exact amount depends on the component's label length.
 Components with long names need more space. This is handled automatically by
 `auto_layout` — only relevant when fine-tuning individual positions.
 
+## External layer and external nodes
+
+Every diagram should include an **external** layer (white, `#FFFFFF`) to represent
+inputs and outputs — the boundary between the system and the outside world.
+
+### Top-level graph
+
+At the root level, create external nodes for actors and systems that interact with
+your architecture but are not part of it:
+
+- **Users / Clients** — browsers, mobile apps, CLI tools
+- **Third-party APIs** — payment providers, auth services, analytics
+- **External data sources** — partner feeds, public APIs
+
+Use type `External/Service` (or the closest match from `list_types`). Place them
+on the `external` layer. Connect them to the components they interact with.
+
+### Subgraphs
+
+When drilling into a component with `/arch-detail`, the subgraph must include
+**one external node for each connection** the parent component has in the parent
+graph. These external nodes represent the interface between the component and the
+rest of the system.
+
+**Example:** If a `Dashboard` component has 3 connections in the parent graph
+(to `API Gateway`, `Auth Service`, and `WebSocket Server`), then its subgraph
+must contain at least 3 external nodes named after those connected components
+(`API Gateway`, `Auth Service`, `WebSocket Server`). These external nodes sit on
+the `external` layer and connect to the internal sub-components that actually
+handle those interactions.
+
+**Workflow for subgraph external nodes:**
+
+1. Before creating sub-components, call `get_graph` at root (or parent level) to
+   find all connections involving the target component.
+2. For each connected component, create an external node inside the subgraph with
+   `parent_path` set to the target component.
+3. Connect these external nodes to the relevant internal sub-components.
+
+This ensures every subgraph is self-contained and clearly shows how data enters
+and leaves the component.
+
 ## Quick reference
 
 | Rule | Value |
@@ -77,3 +119,5 @@ Components with long names need more space. This is handled automatically by
 | Connection curvature range | -1 to 1 (0 = straight) |
 | Verify with | `screenshot` tool |
 | Fine-tune scope | 1-3 components max, with screenshot between each |
+| External layer | Always create, white `#FFFFFF`, for inputs/outputs |
+| Subgraph external nodes | One per parent connection, on `external` layer |

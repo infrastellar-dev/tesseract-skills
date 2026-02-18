@@ -60,10 +60,26 @@ Use `list_types` output, but common mappings:
 
 ## Layer assignment
 
+- `external` — external actors and systems (users, third-party APIs, partners).
+  **Always create this layer** with color `#FFFFFF` (white).
 - `frontend` — browser apps, CLIs, mobile
 - `api` — API gateways, BFFs, GraphQL
 - `services` — backend services, workers, cron jobs
 - `data` — databases, caches, queues, storage
+
+## External nodes
+
+After identifying all internal components, identify the **external actors and
+systems** that interact with the architecture:
+
+- **Users** — end users, admins, developers accessing the system
+- **Third-party APIs** — Stripe, Auth0, SendGrid, analytics services, etc.
+- **External data sources** — partner feeds, public APIs, webhooks
+
+Create these as components on the `external` layer using type `External/Service`
+(or the closest match from `list_types`). Connect them to the internal components
+they interact with. This makes the system boundary explicit and shows how data
+enters and leaves the system.
 
 ## Rules
 
@@ -72,3 +88,4 @@ Use `list_types` output, but common mappings:
 - Use the technology stack found in the code for the `tech` field.
 - Always confirm the plan with the user before creating anything.
 - Connect components based on actual imports, API calls, or config references you find.
+- **Always create an `external` layer** (white, `#FFFFFF`) and add external nodes.
