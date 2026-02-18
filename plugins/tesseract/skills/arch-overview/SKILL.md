@@ -32,18 +32,16 @@ relationships.
    each agent's prompt. Keep each agent focused on its own directory.
 6. **Merge results** — collect all agent outputs and deduplicate. Identify
    cross-package connections from imports, API calls, and config references.
-7. **Present a summary** to the user: list each component you plan to create with
-   its name, type, layer, and technologies. Wait for confirmation before creating.
-8. **Pin existing components** — if the graph already has components, call
+7. **Pin existing components** — if the graph already has components, call
    `pin_all` and save the returned IDs so existing positions are preserved.
-9. **Create components and connections** using the Tesseract MCP tools.
+8. **Create components and connections** using the Tesseract MCP tools.
    No need to specify positions — `auto_layout` will handle placement.
-10. **Run auto layout** — call `auto_layout` to position all unpinned components.
-11. **Unpin** — call `unpin_components` with the IDs from step 8 to restore the
+9. **Run auto layout** — call `auto_layout` to position all unpinned components.
+10. **Unpin** — call `unpin_components` with the IDs from step 7 to restore the
     original state.
-12. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+11. **Verify layout** — take a `screenshot`, check for overlaps and crossing
     connections, fix with `update_component` or `update_connection` (curvature).
-13. **Navigate** — call `look_at` on the most important component so the user
+12. **Navigate** — call `look_at` on the most important component so the user
     sees the result.
 
 ## What to scan

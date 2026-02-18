@@ -27,19 +27,17 @@ The user provides the component name as argument: `/arch-detail <component name>
 5. **Identify the component's code** — find the relevant source directory using
    Glob/Grep based on the component name.
 6. **Scan the component's internals** using the patterns below.
-7. **Present a summary** — list each sub-component (including external nodes)
-   with name, type, layer, and internal connections. Wait for confirmation.
-8. **Create external nodes** inside the parent using `parent_path`, on the
+7. **Create external nodes** inside the parent using `parent_path`, on the
    `external` layer, using type `External/Service`.
-9. **Create internal sub-components** inside the parent using `parent_path`
+8. **Create internal sub-components** inside the parent using `parent_path`
    (no positions needed).
-10. **Connect** external nodes to the internal sub-components that handle those
-    interactions, and connect internal sub-components to each other.
-11. **Run auto layout** — call `auto_layout` with the parent path to position
+9. **Connect** external nodes to the internal sub-components that handle those
+   interactions, and connect internal sub-components to each other.
+10. **Run auto layout** — call `auto_layout` with the parent path to position
     sub-components inside the subgraph.
-12. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+11. **Verify layout** — take a `screenshot`, check for overlaps and crossing
     connections, fix with `update_component` or `update_connection` (curvature).
-13. **Navigate** — call `look_at` with action `enter` to drill into the subgraph.
+12. **Navigate** — call `look_at` with action `enter` to drill into the subgraph.
 
 ## What to scan inside the component
 

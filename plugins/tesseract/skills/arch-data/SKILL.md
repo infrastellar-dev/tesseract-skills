@@ -17,15 +17,13 @@ systems, and data models, then add them to the Tesseract diagram.
 2. **Discover available types** — call `list_types`.
 3. **Check existing graph** — call `get_graph` to avoid duplicates.
 4. **Scan the codebase** for data layer components using the patterns below.
-5. **Present a summary** — list each data store with name, type, tech, and
-   which services connect to it. Wait for confirmation.
-6. **Pin existing components** — call `pin_all` and save the returned IDs.
-7. **Create components and connections** in Tesseract (no positions needed).
-8. **Run auto layout** — call `auto_layout` to place new components.
-9. **Unpin** — call `unpin_components` with the IDs from step 6.
-10. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+5. **Pin existing components** — call `pin_all` and save the returned IDs.
+6. **Create components and connections** in Tesseract (no positions needed).
+7. **Run auto layout** — call `auto_layout` to place new components.
+8. **Unpin** — call `unpin_components` with the IDs from step 5.
+9. **Verify layout** — take a `screenshot`, check for overlaps and crossing
    connections, fix with `update_component` or `update_connection` (curvature).
-11. **Navigate** — `look_at` the primary database.
+10. **Navigate** — `look_at` the primary database.
 
 ## What to scan
 
@@ -60,4 +58,4 @@ systems, and data models, then add them to the Tesseract diagram.
 - Place all data components in the `data` layer.
 - Connect each service that uses a data store with the appropriate protocol
   (SQL, Redis protocol, S3 API, etc.).
-- Always confirm with the user before creating components.
+

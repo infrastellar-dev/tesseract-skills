@@ -36,15 +36,11 @@ Examples:
    - **Root-level path**: the high-level flow across top-level components
    - **Subgraph paths**: the detailed flow inside each component that has
      children
-5. **Present the flow plan** to the user before creating it:
-   - List the root-level path: `A → B → C → D`
-   - For each subgraph traversed: `B / ext_A → handler → service → ext_C`
-   - Wait for confirmation.
-6. **Choose a color palette** — pick a base color for the flow and use it
+5. **Choose a color palette** — pick a base color for the flow and use it
    consistently across all levels (see "Color consistency" below).
-7. **Create the flow paths** — use `save_flow` (preferred) or `highlight_path`
+6. **Create the flow paths** — use `save_flow` (preferred) or `highlight_path`
    (fallback). See "Flow creation strategy" below.
-8. **Verify** — take a `screenshot` at root level. Then `look_at` each
+7. **Verify** — take a `screenshot` at root level. Then `look_at` each
    subgraph with `action: "enter"` and screenshot to verify internal paths.
 
 ## Flow creation strategy

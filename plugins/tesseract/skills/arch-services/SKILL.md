@@ -28,15 +28,13 @@ then add them to the Tesseract diagram.
    directory. For small codebases with 1-2 services, scan sequentially instead.
 6. **Merge results** — collect agent outputs, deduplicate, and identify
    inter-service connections.
-7. **Present a summary** — list each service/API you found with name, type,
-   layer, endpoints, and technologies. Wait for confirmation.
-8. **Pin existing components** — call `pin_all` and save the returned IDs.
-9. **Create components and connections** in Tesseract (no positions needed).
-10. **Run auto layout** — call `auto_layout` to place new components.
-11. **Unpin** — call `unpin_components` with the IDs from step 8.
-12. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+7. **Pin existing components** — call `pin_all` and save the returned IDs.
+8. **Create components and connections** in Tesseract (no positions needed).
+9. **Run auto layout** — call `auto_layout` to place new components.
+10. **Unpin** — call `unpin_components` with the IDs from step 7.
+11. **Verify layout** — take a `screenshot`, check for overlaps and crossing
     connections, fix with `update_component` or `update_connection` (curvature).
-13. **Navigate** — `look_at` the main API component.
+12. **Navigate** — `look_at` the main API component.
 
 ## What to scan
 

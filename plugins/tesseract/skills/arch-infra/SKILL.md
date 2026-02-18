@@ -17,15 +17,13 @@ deployment configuration, then add relevant components to the Tesseract diagram.
 2. **Discover available types** — call `list_types`.
 3. **Check existing graph** — call `get_graph` to avoid duplicates.
 4. **Scan the codebase** for infra configuration using the patterns below.
-5. **Present a summary** — list each infra component with name, type, tech.
-   Wait for confirmation.
-6. **Pin existing components** — call `pin_all` and save the returned IDs.
-7. **Create components and connections** in Tesseract (no positions needed).
-8. **Run auto layout** — call `auto_layout` to place new components.
-9. **Unpin** — call `unpin_components` with the IDs from step 6.
-10. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+5. **Pin existing components** — call `pin_all` and save the returned IDs.
+6. **Create components and connections** in Tesseract (no positions needed).
+7. **Run auto layout** — call `auto_layout` to place new components.
+8. **Unpin** — call `unpin_components` with the IDs from step 5.
+9. **Verify layout** — take a `screenshot`, check for overlaps and crossing
    connections, fix with `update_component` or `update_connection` (curvature).
-11. **Navigate** — `look_at` the main gateway or load balancer.
+10. **Navigate** — `look_at` the main gateway or load balancer.
 
 ## What to scan
 
@@ -59,4 +57,4 @@ deployment configuration, then add relevant components to the Tesseract diagram.
 - Focus on infrastructure components that are architecturally relevant.
 - Skip individual CI steps — represent CI/CD as one component.
 - Annotate components with key config details (replicas, resources, etc.).
-- Always confirm with the user before creating components.
+

@@ -236,7 +236,6 @@ Use the actual protocol found in the code:
 
 ## 7. General rules
 
-- **Always confirm the plan with the user** before creating components.
 - **Always create an `external` layer** (white, `#FFFFFF`) with external nodes.
 - **Always call `screenshot`** after layout to verify visually.
 - **Never guess** — if a connection or component purpose is unclear, ask the user.

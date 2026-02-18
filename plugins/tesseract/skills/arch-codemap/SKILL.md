@@ -94,19 +94,9 @@ This is the all-in-one skill — it replaces running `arch-overview`,
 
    Add these as components on the `external` layer.
 
-### Phase 5: Present and confirm
+### Phase 5: Build the diagram
 
-9. **Present the full architecture plan** to the user as a table:
-
-   | Component | Type | Layer | Tech | Connections |
-   |-----------|------|-------|------|-------------|
-   | ... | ... | ... | ... | ... |
-
-   Wait for user confirmation before creating anything.
-
-### Phase 6: Build the diagram
-
-10. **Create layers** — ensure these layers exist (create if needed):
+9. **Create layers** — ensure these layers exist (create if needed):
     - `external` (color `#FFFFFF`)
     - `frontend`
     - `api`
@@ -116,27 +106,27 @@ This is the all-in-one skill — it replaces running `arch-overview`,
     Add custom layers if the codebase warrants it (e.g. `infrastructure`,
     `messaging`). Call `reorder_layers` to set the correct top-to-bottom order.
 
-11. **Pin existing components** — if the graph already has components, call
+10. **Pin existing components** — if the graph already has components, call
     `pin_all` and save the returned IDs.
 
-12. **Create all components** — call `add_component` for each component.
+11. **Create all components** — call `add_component` for each component.
     Omit positions. Use exact types from `list_types`.
 
-13. **Create all connections** — call `add_connection` for each connection.
+12. **Create all connections** — call `add_connection` for each connection.
     Use the actual protocol (HTTPS, gRPC, SQL, Redis, AMQP, WebSocket, etc.).
 
-14. **Run auto layout** — call `auto_layout` to position everything.
+13. **Run auto layout** — call `auto_layout` to position everything.
 
-15. **Unpin** — call `unpin_components` with the IDs from step 11.
+14. **Unpin** — call `unpin_components` with the IDs from step 10.
 
-16. **Verify layout** — take a `screenshot` with `zoom_to_fit: true`. Check for:
+15. **Verify layout** — take a `screenshot` with `zoom_to_fit: true`. Check for:
     - Overlapping components
     - Crossing connections
     - Misplaced layers
     Fix issues with `update_component` (position) or `update_connection`
     (curvature). Screenshot after each fix.
 
-17. **Navigate** — call `look_at` on the central component (usually the main
+16. **Navigate** — call `look_at` on the central component (usually the main
     API or gateway) so the user sees the result.
 
 ## Component type mapping
