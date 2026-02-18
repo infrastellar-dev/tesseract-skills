@@ -16,16 +16,27 @@ then add them to the Tesseract diagram.
    follow all placement and connection routing guidelines.
 2. **Discover available types** — call `list_types`.
 3. **Check existing graph** — call `get_graph` to avoid duplicates.
-4. **Scan the codebase** for services and APIs using the patterns below.
-5. **Present a summary** — list each service/API you found with name, type,
+4. **Discover service directories** — use `Glob` to find directories matching
+   the "What to scan" patterns below. Build a list of distinct service roots.
+5. **Scan services in parallel** — if there are multiple service directories,
+   use the `Task` tool to launch one agent per service. Send all `Task` calls
+   in a **single message** so they run concurrently. Each agent should:
+   - Read routes, controllers, middleware, and client calls in its directory
+   - Identify the service name, type, layer, tech, endpoints, and connections
+   - Return a structured summary
+   Use `subagent_type: "Explore"` and keep each agent focused on its own
+   directory. For small codebases with 1-2 services, scan sequentially instead.
+6. **Merge results** — collect agent outputs, deduplicate, and identify
+   inter-service connections.
+7. **Present a summary** — list each service/API you found with name, type,
    layer, endpoints, and technologies. Wait for confirmation.
-6. **Pin existing components** — call `pin_all` and save the returned IDs.
-7. **Create components and connections** in Tesseract (no positions needed).
-8. **Run auto layout** — call `auto_layout` to place new components.
-9. **Unpin** — call `unpin_components` with the IDs from step 6.
-10. **Verify layout** — take a `screenshot`, check for overlaps and crossing
-   connections, fix with `update_component` or `update_connection` (curvature).
-11. **Navigate** — `look_at` the main API component.
+8. **Pin existing components** — call `pin_all` and save the returned IDs.
+9. **Create components and connections** in Tesseract (no positions needed).
+10. **Run auto layout** — call `auto_layout` to place new components.
+11. **Unpin** — call `unpin_components` with the IDs from step 8.
+12. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+    connections, fix with `update_component` or `update_connection` (curvature).
+13. **Navigate** — `look_at` the main API component.
 
 ## What to scan
 

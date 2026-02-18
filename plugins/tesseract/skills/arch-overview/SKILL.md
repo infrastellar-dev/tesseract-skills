@@ -17,20 +17,34 @@ relationships.
    follow all placement and connection routing guidelines.
 2. **Discover available types** — call `list_types` to get valid component types.
 3. **Check existing graph** — call `get_graph` at root to see what already exists.
-4. **Scan the codebase** using the patterns below to identify top-level components.
-5. **Present a summary** to the user: list each component you plan to create with
+4. **Discover packages** — use `Glob` to find top-level project roots
+   (`**/package.json`, `**/go.mod`, `**/pyproject.toml`, `**/Cargo.toml`,
+   `**/docker-compose*.yml`). Build a list of directories to scan.
+5. **Scan packages in parallel** — use the `Task` tool to launch one agent per
+   package/directory. Send all `Task` calls in a **single message** so they run
+   concurrently. Each agent should:
+   - Read the package's entry points, config files, and dependencies
+   - Identify the component name, type (from the type mapping below), layer,
+     technologies, and any connections to other packages it can detect
+   - Return a structured summary (name, type, layer, tech, description,
+     connections)
+   Use `subagent_type: "Explore"` and include the "What to scan" patterns in
+   each agent's prompt. Keep each agent focused on its own directory.
+6. **Merge results** — collect all agent outputs and deduplicate. Identify
+   cross-package connections from imports, API calls, and config references.
+7. **Present a summary** to the user: list each component you plan to create with
    its name, type, layer, and technologies. Wait for confirmation before creating.
-6. **Pin existing components** — if the graph already has components, call
+8. **Pin existing components** — if the graph already has components, call
    `pin_all` and save the returned IDs so existing positions are preserved.
-7. **Create components and connections** using the Tesseract MCP tools.
+9. **Create components and connections** using the Tesseract MCP tools.
    No need to specify positions — `auto_layout` will handle placement.
-8. **Run auto layout** — call `auto_layout` to position all unpinned components.
-9. **Unpin** — call `unpin_components` with the IDs from step 6 to restore the
-   original state.
-10. **Verify layout** — take a `screenshot`, check for overlaps and crossing
-   connections, fix with `update_component` or `update_connection` (curvature).
-11. **Navigate** — call `look_at` on the most important component so the user
-   sees the result.
+10. **Run auto layout** — call `auto_layout` to position all unpinned components.
+11. **Unpin** — call `unpin_components` with the IDs from step 8 to restore the
+    original state.
+12. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+    connections, fix with `update_component` or `update_connection` (curvature).
+13. **Navigate** — call `look_at` on the most important component so the user
+    sees the result.
 
 ## What to scan
 
