@@ -13,8 +13,8 @@ relationships.
 
 ## Workflow
 
-1. **Read layout rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/LAYOUT.md` and
-   follow all placement and connection routing guidelines.
+1. **Read rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/RULES.md` and
+   follow all layout, connectivity, and naming guidelines.
 2. **Discover available types** — call `list_types` to get valid component types.
 3. **Check existing graph** — call `get_graph` at root to see what already exists.
 4. **Discover packages** — use `Glob` to find top-level project roots
@@ -72,34 +72,12 @@ Use `list_types` output, but common mappings:
 | Nginx / API Gateway | Gateway/API Gateway |
 | External third-party API | External/Service |
 
-## Layer assignment
-
-- `external` — external actors and systems (users, third-party APIs, partners).
-  **Always create this layer** with color `#FFFFFF` (white).
-- `frontend` — browser apps, CLIs, mobile
-- `api` — API gateways, BFFs, GraphQL
-- `services` — backend services, workers, cron jobs
-- `data` — databases, caches, queues, storage
-
-## External nodes
-
-After identifying all internal components, identify the **external actors and
-systems** that interact with the architecture:
-
-- **Users** — end users, admins, developers accessing the system
-- **Third-party APIs** — Stripe, Auth0, SendGrid, analytics services, etc.
-- **External data sources** — partner feeds, public APIs, webhooks
-
-Create these as components on the `external` layer using type `External/Service`
-(or the closest match from `list_types`). Connect them to the internal components
-they interact with. This makes the system boundary explicit and shows how data
-enters and leaves the system.
-
 ## Rules
 
-- Do NOT create duplicate components — check `get_graph` first.
-- Name components after their actual name in the codebase (service name, package name).
-- Use the technology stack found in the code for the `tech` field.
-- Always confirm the plan with the user before creating anything.
-- Connect components based on actual imports, API calls, or config references you find.
-- **Always create an `external` layer** (white, `#FFFFFF`) and add external nodes.
+All common rules (layers, external nodes, naming, connectivity, protocols) are
+in `RULES.md` — read it first. Skill-specific rules:
+
+- After identifying internal components, identify external actors (users,
+  third-party APIs, data sources) and create them on the `external` layer.
+- Connect components based on actual imports, API calls, or config references
+  you find in the code.

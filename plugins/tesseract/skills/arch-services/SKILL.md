@@ -12,8 +12,8 @@ then add them to the Tesseract diagram.
 
 ## Workflow
 
-1. **Read layout rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/LAYOUT.md` and
-   follow all placement and connection routing guidelines.
+1. **Read rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/RULES.md` and
+   follow all layout, connectivity, and naming guidelines.
 2. **Discover available types** — call `list_types`.
 3. **Check existing graph** — call `get_graph` to avoid duplicates.
 4. **Discover service directories** — use `Glob` to find directories matching
@@ -64,19 +64,10 @@ then add them to the Tesseract diagram.
 | Cron job / scheduler | Compute/Scheduler |
 | WebSocket server | API/WebSocket |
 
-## Connection protocols
-
-Use the actual protocol found in the code:
-- `HTTPS` for REST calls
-- `gRPC` for protobuf services
-- `GraphQL` for GraphQL
-- `WebSocket` for WS connections
-- `AMQP` / `Kafka` for message queues
-- `SQL` for database connections
-
 ## Rules
 
-- Do NOT create duplicate components — check `get_graph` first.
-- Name services after their actual name in the codebase.
-- Describe connections with what data flows through them.
-- Always confirm with the user before creating components.
+All common rules (layers, external nodes, naming, connectivity, protocols) are
+in `RULES.md` — read it first. Skill-specific rules:
+
+- Describe connections with what data flows through them (not just the protocol).
+- For protocol mapping, see `RULES.md` § 6 Connections.

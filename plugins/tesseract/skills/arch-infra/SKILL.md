@@ -12,8 +12,8 @@ deployment configuration, then add relevant components to the Tesseract diagram.
 
 ## Workflow
 
-1. **Read layout rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/LAYOUT.md` and
-   follow all placement and connection routing guidelines.
+1. **Read rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/RULES.md` and
+   follow all layout, connectivity, and naming guidelines.
 2. **Discover available types** — call `list_types`.
 3. **Check existing graph** — call `get_graph` to avoid duplicates.
 4. **Scan the codebase** for infra configuration using the patterns below.

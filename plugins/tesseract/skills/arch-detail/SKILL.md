@@ -15,8 +15,8 @@ The user provides the component name as argument: `/arch-detail <component name>
 
 ## Workflow
 
-1. **Read layout rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/LAYOUT.md` and
-   follow all placement and connection routing guidelines.
+1. **Read rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/RULES.md` and
+   follow all layout, connectivity, and naming guidelines.
 2. **Discover available types** — call `list_types`.
 3. **Check existing graph** — call `get_graph` at root to find the target
    component and **all its connections in the parent graph**. If the component
@@ -63,32 +63,11 @@ The user provides the component name as argument: `/arch-detail <component name>
 | Config / env loader | External/Service |
 | Auth middleware | API/API Server |
 
-## External nodes for subgraphs
-
-Every subgraph must include **one external node for each connection** the parent
-component has in the parent graph. These represent the interface between the
-component's internals and the rest of the system.
-
-**Example:** If `Dashboard` has connections to `API Gateway`, `Auth Service`, and
-`WebSocket Server` in the parent graph, the Dashboard subgraph must contain 3
-external nodes: `API Gateway`, `Auth Service`, `WebSocket Server`.
-
-- Place external nodes on the `external` layer (white, `#FFFFFF`). Create this
-  layer inside the subgraph if it doesn't exist.
-- Use type `External/Service` (or the closest match from `list_types`).
-- Name each external node after the connected component in the parent graph.
-- Connect each external node to the internal sub-component(s) that handle the
-  corresponding interaction.
-
-This ensures the subgraph is self-contained and clearly shows how data flows in
-and out of the component.
-
 ## Rules
+
+All common rules (layers, external nodes, naming, connectivity, protocols) are
+in `RULES.md` — read it first. Skill-specific rules:
 
 - The target component MUST already exist in the graph.
 - Use `parent_path` (e.g. `/My Service`) when adding sub-components.
-- Do NOT create duplicate sub-components — check `get_graph` at the parent path.
-- Name sub-components after their actual module/class names.
-- Keep the subgraph focused — 4 to 8 internal components is ideal.
-- **Always create external nodes** for each connection the parent has.
-- Always confirm with the user before creating components.
+- Create one external node per parent connection (see `RULES.md` § 3 Subgraphs).

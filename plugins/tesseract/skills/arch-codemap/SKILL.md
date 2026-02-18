@@ -19,8 +19,8 @@ This is the all-in-one skill — it replaces running `arch-overview`,
 
 ### Phase 1: Setup
 
-1. **Read layout rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/LAYOUT.md` and
-   follow all placement and connection routing guidelines.
+1. **Read rules** — `Read` the file `${CLAUDE_PLUGIN_ROOT}/RULES.md` and
+   follow all layout, connectivity, and naming guidelines.
 2. **Discover available types** — call `list_types` to get valid component types.
 3. **Check existing graph** — call `get_graph` at root to see what already exists.
 4. **Set project metadata** — call `update_project` with the project name and a
@@ -164,33 +164,11 @@ Use `list_types` output, but common mappings:
 | Kubernetes cluster | Compute/Kubernetes |
 | External third-party API | External/Service |
 
-## Connection protocols
-
-Use the actual protocol found in the code:
-
-| Pattern | Protocol |
-|---|---|
-| REST / HTTP client calls | `HTTPS` |
-| gRPC / protobuf | `gRPC` |
-| GraphQL queries | `GraphQL` |
-| WebSocket connections | `WebSocket` |
-| SQL database access | `SQL` |
-| Redis commands | `Redis` |
-| MongoDB queries | `MongoDB` |
-| Message queue pub/sub | `AMQP` / `Kafka` |
-| S3 / object storage | `S3 API` |
-| Server-sent events | `HTTP/SSE` |
-
 ## Rules
 
-- Do NOT create duplicate components — check `get_graph` first.
-- Name components after their actual name in the codebase.
-- Use the technology stack found in the code for the `tech` field.
-- Always confirm the full plan with the user before creating anything.
-- Connect components based on actual imports, API calls, or config references.
-- **Always create an `external` layer** (white, `#FFFFFF`) and add external nodes.
-- Prefer fewer, well-chosen components over an exhaustive list. Aim for
-  8-20 components at the top level — enough to show the architecture clearly
-  without clutter.
-- If the codebase is a monolith, identify logical modules rather than creating
-  a single giant component.
+All common rules (layers, external nodes, naming, connectivity, protocols) are
+in `RULES.md` — read it first. Skill-specific rules:
+
+- For protocol mapping, see `RULES.md` § 6 Connections.
+- This is the all-in-one skill — if the graph is empty, build everything from
+  scratch rather than asking the user to run other skills first.
