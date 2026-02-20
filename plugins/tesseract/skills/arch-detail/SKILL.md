@@ -19,25 +19,23 @@ The user provides the component name as argument: `/arch-detail <component name>
    follow all layout, connectivity, and naming guidelines.
 2. **Discover available types** — call `list_types`.
 3. **Check existing graph** — call `get_graph` at root to find the target
-   component and **all its connections in the parent graph**. If the component
+   component and its connections in the parent graph. If the component
    doesn't exist, tell the user and suggest running `/arch-overview` first.
-4. **Identify external nodes** — for each connection the target component has in
-   the parent graph, note the other component's name. These will become external
-   nodes in the subgraph (see "External nodes for subgraphs" below).
-5. **Identify the component's code** — find the relevant source directory using
+4. **Identify the component's code** — find the relevant source directory using
    Glob/Grep based on the component name.
-6. **Scan the component's internals** using the patterns below.
-7. **Create external nodes** inside the parent using `parent_path`, on the
-   `external` layer, using type `External/Service`.
-8. **Create internal sub-components** inside the parent using `parent_path`
+5. **Scan the component's internals** using the patterns below.
+6. **Enter the subgraph** — call `look_at` with action `enter` to drill into the
+   component. External nodes (representing connected parent-level components)
+   appear automatically — do NOT create them manually.
+7. **Create internal sub-components** inside the parent using `parent_path`
    (no positions needed).
-9. **Connect** external nodes to the internal sub-components that handle those
-   interactions, and connect internal sub-components to each other.
-10. **Run auto layout** — call `auto_layout` with the parent path to position
+8. **Connect** the auto-generated external nodes to the internal sub-components
+   that handle those interactions, and connect internal sub-components to each
+   other.
+9. **Run auto layout** — call `auto_layout` with the parent path to position
     sub-components inside the subgraph.
-11. **Verify layout** — take a `screenshot`, check for overlaps and crossing
+10. **Verify layout** — take a `screenshot`, check for overlaps and crossing
     connections, fix with `update_component` or `update_connection` (curvature).
-12. **Navigate** — call `look_at` with action `enter` to drill into the subgraph.
 
 ## What to scan inside the component
 
@@ -68,4 +66,5 @@ in `RULES.md` — read it first. Skill-specific rules:
 
 - The target component MUST already exist in the graph.
 - Use `parent_path` (e.g. `/My Service`) when adding sub-components.
-- Create one external node per parent connection (see `RULES.md` § 3 Subgraphs).
+- External nodes are auto-created — do NOT create them manually (see `RULES.md` § 3).
+- External nodes cannot be deleted and two external nodes cannot be connected.

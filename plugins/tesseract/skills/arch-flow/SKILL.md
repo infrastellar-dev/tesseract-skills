@@ -89,11 +89,13 @@ If `Auth Service` has a subgraph, also trace:
 ```
 
 (Here `API Gateway` and `PostgreSQL` are external nodes inside the Auth Service
-subgraph — they represent the same components from the parent level.)
+subgraph — they are auto-generated virtual references to the same parent-level
+components, marked with `external: true` in the `get_graph` output.)
 
 ### How to build subgraph paths
 
-1. Call `get_graph` at the subgraph path (e.g. `/Auth Service`)
+1. Call `get_graph` at the subgraph path (e.g. `/Auth Service`) — external
+   nodes appear automatically (flagged `external: true`)
 2. Identify the external nodes matching the root-level predecessor and successor
 3. Trace the internal route from the entry external node through internal
    components to the exit external node

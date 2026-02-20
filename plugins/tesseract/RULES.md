@@ -113,25 +113,34 @@ external nodes.
 
 ### Subgraphs
 
-When drilling into a component, the subgraph must include **one external node
-for each connection** the parent component has in the parent graph. These
-external nodes represent the interface between the component and the rest of
-the system.
+When drilling into a component (using `look_at` with `action: "enter"`),
+**external nodes are created automatically** from the parent-level connections.
+You do **not** need to create them manually.
 
 **Example:** If a `Dashboard` component has 3 connections in the parent graph
-(to `API Gateway`, `Auth Service`, and `WebSocket Server`), then its subgraph
-must contain 3 external nodes named after those connected components.
+(to `API Gateway`, `Auth Service`, and `WebSocket Server`), then entering
+its subgraph will automatically show 3 external nodes named after those
+connected components, on the `external` layer.
 
-**Workflow for subgraph external nodes:**
+**Key behaviors of automatic external nodes:**
 
-1. Before creating sub-components, call `get_graph` at root (or parent level)
-   to find all connections involving the target component.
-2. For each connected component, create an external node inside the subgraph
-   with `parent_path` set to the target component.
-3. Connect these external nodes to the relevant internal sub-components.
+- They appear in `get_graph` output with `external: true`.
+- They **cannot be deleted** — they are virtual references to real
+  parent-level components.
+- **Two external nodes cannot be connected** to each other — at least one
+  endpoint must be a real internal node.
+- **Editing** an external node's attributes (name, type, tech, description)
+  updates the real parent-level component.
+- They are **transient** until connected to an internal node, at which point
+  they are persisted in the subgraph.
 
-This ensures every subgraph is self-contained and clearly shows how data enters
-and leaves the component.
+**Workflow for subgraphs:**
+
+1. Enter the component with `look_at` (action `enter`) — external nodes
+   appear automatically.
+2. Create internal sub-components using `parent_path`.
+3. Connect internal sub-components to the external nodes and to each other.
+4. Run `auto_layout` with the parent path.
 
 ---
 
@@ -254,7 +263,7 @@ Use the actual protocol found in the code:
 | Verify with | `screenshot` tool |
 | Fine-tune scope | 1-3 components max, with screenshot between each |
 | External layer | Always create, white `#FFFFFF` |
-| Subgraph external nodes | One per parent connection, on `external` layer |
+| Subgraph external nodes | Auto-created from parent connections (do not create manually) |
 | Top-level component count | 8-20 |
 | Subgraph component count | 4-8 |
 | Every component connected | Yes — zero connections is an error |
