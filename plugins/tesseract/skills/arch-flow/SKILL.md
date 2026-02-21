@@ -1,6 +1,6 @@
 ---
 name: arch-flow
-description: Trace and visualize a data flow through the Tesseract architecture diagram. Creates multilevel flow paths that span across subgraphs with consistent colors. Use when the user wants to trace how data moves through the system.
+description: Trace and visualize a data flow through the Tesseract architecture diagram. Creates flow paths at each graph level (root and subgraphs) with consistent colors. Use when the user wants to trace how data moves through the system.
 disable-model-invocation: true
 allowed-tools: Glob, Grep, Read, Bash, mcp__tesseract__list_components, mcp__tesseract__get_graph, mcp__tesseract__get_user_context, mcp__tesseract__look_at, mcp__tesseract__screenshot, mcp__tesseract__highlight_path, mcp__tesseract__clear_highlights, mcp__tesseract__save_flow, mcp__tesseract__list_flows, mcp__tesseract__show_flow, mcp__tesseract__update_flow, mcp__tesseract__delete_flow
 argument-hint: "<flow description>"
@@ -30,12 +30,12 @@ Examples:
    - The **intermediate components** (services, APIs, queues it passes through)
    - The **exit point** (where the flow ends — a data store, external sink, or
      response back to the entry point)
-4. **Plan multilevel paths** — for each component in the flow that has a
+4. **Plan paths per level** — for each component in the flow that has a
    subgraph, drill into it with `get_graph` at that path to determine the
-   internal route. Build paths at every level:
+   internal route. Build one path per level (no cross-level mixing):
    - **Root-level path**: the high-level flow across top-level components
-   - **Subgraph paths**: the detailed flow inside each component that has
-     children
+   - **Subgraph paths**: one separate path per subgraph, using external nodes
+     as entry/exit points
 5. **Choose a color palette** — pick a base color for the flow and use it
    consistently across all levels (see "Color consistency" below).
 6. **Create the flow paths** — use `save_flow` (preferred) or `highlight_path`
@@ -75,6 +75,8 @@ Inform the user that highlights are temporary and will disappear on reload.
 
 Flows should be **multilevel by default**. When the root-level flow passes
 through a component that has a subgraph, always trace the internal path too.
+Each path must stay at a **single graph level** — use separate paths for
+different levels (root, subgraph, nested subgraph).
 
 **Example:** A "user login" flow at root level might be:
 
@@ -130,6 +132,8 @@ matching colors.
 All common rules are in `RULES.md` — read it first. Skill-specific rules:
 
 - **Multilevel by default** — always trace through subgraphs when they exist.
+- **One path per level** — never mix connections from different graph levels in
+  the same path. Use separate paths for root and each subgraph.
 - **One color per flow** — consistent across all levels.
 - **Persist when possible** — use `save_flow` to make flows permanent.
 - **Verify at every level** — screenshot root + each subgraph.

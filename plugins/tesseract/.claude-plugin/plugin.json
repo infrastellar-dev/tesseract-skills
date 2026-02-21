@@ -1,6 +1,6 @@
 {
   "name": "tesseract",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Generate architecture diagrams from codebases with Tesseract",
   "author": {
     "name": "David Guerizec",

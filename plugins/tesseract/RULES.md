@@ -243,7 +243,33 @@ Use the actual protocol found in the code:
 
 ---
 
-## 7. General rules
+## 7. Flows
+
+### Single-level paths
+
+Each path within a flow must contain connections from **one graph level only**.
+Do not mix root-level and subgraph-level connections in the same path.
+
+- **One path = one level.** All connections in a path must be at the same
+  `parent_path` (or all at root).
+- **Use separate paths for different levels.** A flow can have multiple paths,
+  each at a different depth. For example, a "user login" flow might have:
+  - Path 1 (root): `Users → API Gateway → Auth Service → PostgreSQL`
+  - Path 2 (`/Auth Service`): `API Gateway → JWT Handler → User Repository → PostgreSQL`
+- **`highlight_path` enforces this** — it takes a single `parent_path` for
+  the whole highlight.
+- **`update_flow` validates this** — `add_path` and `add_segment` reject
+  segments at mismatched levels.
+
+### External nodes in subgraph paths
+
+When tracing a flow through a subgraph, use the **external nodes** that appear
+automatically. These virtual nodes represent parent-level components and allow
+you to build a complete path within a single level.
+
+---
+
+## 8. General rules
 
 - **Always create an `external` layer** (white, `#FFFFFF`) with external nodes.
 - **Always call `screenshot`** after layout to verify visually.
